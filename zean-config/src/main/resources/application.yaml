@@ -1,0 +1,16 @@
+server:
+  port: 10001
+spring:
+  application:
+    name: zean-config
+  profiles:
+    active: dev
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/seuzxc/spring-config-repo.git
+          skip-ssl-validation: true
+          # timeout 30 秒
+          timeout: 30
+

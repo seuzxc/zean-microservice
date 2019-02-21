@@ -1,0 +1,10 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: zean-order
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:11001/eureka/
