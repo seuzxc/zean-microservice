@@ -1,0 +1,19 @@
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:11001/eureka/
+    fetchRegistry: true
+
+zuul:
+  routes:
+    zean-api:
+      path: /zean-api/**
+      serviceId: zean-api
+
+spring:
+  application:
+    name: zuul-server
+
+server:
+    port: 5555

@@ -1,16 +1,10 @@
-server:
-  port: 8080
-spring:
-  application:
-    name: api
-  profiles:
-    active: dev
-  cloud:
-    config:
-      uri: http://localhost:10001
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:11001/eureka/
     fetchRegistry: true
+
+spring:
+  application:
+    name: zean-api

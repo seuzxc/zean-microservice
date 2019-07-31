@@ -7,12 +7,8 @@ import com.vvm.zeanapi.service.order.response.UserOrderResp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
@@ -22,13 +18,24 @@ import java.util.List;
 public class OrderApiService {
 
     @Autowired
-    private DiscoveryClient discoveryClient;
+    private RibbonOrderApiService ribbonOrderApiService;
+
     @Autowired
-    private RestTemplate restTemplate;
+    private DiscoveryClient discoveryClient;
+
     @Autowired
     private OrderFeignClient orderFeignClient;
 
 
+    /***
+     * 接口没有实际意义，仅仅为为了测试不同的服务调用方式(clientType)
+     * 1、通过feign调用
+     * 2、通过标准的restTemplate调用
+     * 3、通过discoveryClient调用
+     * @param userId
+     * @param clientType
+     * @return
+     */
     public UserOrderResp getUserOrders(String userId, String clientType) {
         UserOrderResp resp = new UserOrderResp();
         resp.setUserId(userId);
@@ -36,20 +43,31 @@ public class OrderApiService {
 
         if ("feign".equalsIgnoreCase(clientType)) {
             resp.setOrders(getOrderInfoByFeign(userId));
-        } else if ("standard".equalsIgnoreCase(clientType)) {
-            resp.setOrders(getOrderInfoByStandardRestTemplate(userId));
+        } else if ("ribbon".equalsIgnoreCase(clientType)) {
+            resp.setOrders(ribbonOrderApiService.getOrderInfoByRibbonRestTemplate(userId));
         } else {
-            resp.setOrders(getOrderInfoByRibbinRestTemplate(userId));
+            resp.setOrders(getOrderInfoByDiscoveryClient(userId));
         }
         return resp;
     }
 
+
+
     /**
-     * invoke api with standard restTemplate，without loadbalance
+     * invoke api with feign
      * @param userId
      * @return
      */
-    private List<OrderResp> getOrderInfoByStandardRestTemplate(String userId) {
+    public List<OrderResp> getOrderInfoByFeign(String userId) {
+        return orderFeignClient.getUserOrders(userId);
+    }
+
+    /**
+     * invoke api with discoveryClient，without loadBalance
+     * @param userId
+     * @return
+     */
+    private List<OrderResp> getOrderInfoByDiscoveryClient(String userId) {
         RestTemplate restTemplate1 = new RestTemplate();
 
         List<ServiceInstance> serviceInstances = discoveryClient.getInstances(ServiceIdConstants.ZEAN_ORDER);
@@ -62,23 +80,5 @@ public class OrderApiService {
                 OrderResp[].class);
         return Arrays.asList(orderList);
     }
-
-    /**
-     * invoke api with spring loadbalancer restTemplate
-     * @param userId
-     * @return
-     */
-    private List<OrderResp> getOrderInfoByRibbinRestTemplate(String userId) {
-
-        OrderResp[] orderList = restTemplate.getForObject("http://zean-order/order/user-orders?userId=" + userId,
-                OrderResp[].class);
-        return Arrays.asList(orderList);
-    }
-
-    private List<OrderResp> getOrderInfoByFeign(String userId) {
-
-        return orderFeignClient.getUserOrders(userId);
-    }
-
 
 }

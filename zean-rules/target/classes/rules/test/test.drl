@@ -1,0 +1,30 @@
+package rules.test;
+
+import com.vvm.zeanrules.model.RUserInfo;
+import com.vvm.zeanrules.model.DeviceInfo;
+
+//rule "test"
+//    when
+//        RUserInfo($age: age);
+//        eval($age>18)
+//    then
+//        System.out.println("the age is great than 18.");
+//end
+
+
+rule "test1"
+    when
+        RUserInfo($age: age);
+        eval($age>40)
+    then
+        System.out.println("the age is great than 40.");
+end
+
+rule "test2"
+    when
+        not DeviceInfo();
+    then
+        System.out.println("no device info.");
+end
+
+

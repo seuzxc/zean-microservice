@@ -1,0 +1,4 @@
+com\vvm\zeanrules\model\RUserInfo.class
+com\vvm\zeanrules\model\DeviceInfo.class
+com\vvm\zeanrules\ZeanRulesApp.class
+com\vvm\zeanrules\util\KieKnowledgeHelper.class

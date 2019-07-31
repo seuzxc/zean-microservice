@@ -32,6 +32,9 @@
         <module>zean-util</module>
         <module>zean-discovery</module>
         <module>zean-config</module>
+		<module>zean-risk</module>
+		<module>zean-rules</module>
+        <module>zean-zuul</module>
     </modules>
 
     <dependencies>
@@ -88,12 +91,12 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-        </repository>
-    </repositories>
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>spring-milestones</id>-->
+            <!--<name>Spring Milestones</name>-->
+            <!--<url>https://repo.spring.io/milestone</url>-->
+        <!--</repository>-->
+    <!--</repositories>-->
 
 </project>
