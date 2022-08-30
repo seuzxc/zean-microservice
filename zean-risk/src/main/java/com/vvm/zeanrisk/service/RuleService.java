@@ -1,6 +1,6 @@
 package com.vvm.zeanrisk.service;
 
-import com.vvm.zeanrules.model.RUserInfo;
+
 import org.kie.api.KieServices;
 import org.kie.api.builder.KieScanner;
 import org.kie.api.event.kiescanner.KieScannerEventListener;
@@ -9,6 +9,7 @@ import org.kie.api.event.kiescanner.KieScannerUpdateResultsEvent;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.stereotype.Service;
+import com.vvm.zeanrules.model.RUserInfo;
 
 import java.util.Date;
 
@@ -22,6 +23,8 @@ public class RuleService {
     @PostConstruct
     public void init() {
         KieServices ks = KieServices.Factory.get();
+
+
         // kieContainer = ks.newKieClasspathContainer();
         //ks.newKieContainer(ks.newReleaseId("com.vvm","zean-rules","release"));
         kieContainer = ks.newKieContainer(ks.newReleaseId("com.vvm", "zean-rules", "1.0.0"));
