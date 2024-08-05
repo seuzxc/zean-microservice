@@ -16,7 +16,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <redisson.version>3.17.0</redisson.version>
+        <redisson.version>3.22.0</redisson.version>
         <jedis.version>4.2.0</jedis.version>
         <spring-kafka.version>2.1.5.RELEASE</spring-kafka.version>
     </properties>
